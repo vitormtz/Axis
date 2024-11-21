@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Axis Coworking</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <th:block th:replace="~{fragmentos/fragmentos :: cabecalho('Axis Coworking')}"></th:block>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav th:replace="~{fragmentos/fragmentos :: navegacao}"></nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 mb-4">Reserve seu espaço de trabalho ideal</h1>
+            <p class="lead mb-4">Ambientes modernos e profissionais para impulsionar sua produtividade</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <!-- Filtros -->
+        <div class="filter-section">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Data</label>
+                    <input type="date" class="form-control" id="data" min="" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Hora Inicial</label>
+                    <input type="time" class="form-control" id="horaInicio" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Hora Final</label>
+                    <input type="time" class="form-control" id="horaFim" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Capacidade</label>
+                    <select class="form-select" id="capacidade">
+                        <option value="">Qualquer</option>
+                        <option value="1">1 pessoa</option>
+                        <option value="2">2-4 pessoas</option>
+                        <option value="5">5-8 pessoas</option>
+                        <option value="9">9+ pessoas</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Salas -->
+        <h2 class="mb-4">Salas Disponíveis</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <!-- Sala 1 -->
+            <div class="col">
+                <div class="card room-card h-100">
+                    <img src="" class="card-img-top" alt="Sala Executiva">
+                    <div class="card-body">
+                        <h5 class="card-title">Sala Executiva</h5>
+                        <p class="card-text">Sala ampla e sofisticada, ideal para reuniões importantes e apresentações.</p>
+                        <div class="amenities mb-3">
+                            <i class="fas fa-wifi amenity-icon" title="Wi-Fi"></i>
+                            <i class="fas fa-tv amenity-icon" title="TV"></i>
+                            <i class="fas fa-coffee amenity-icon" title="Café"></i>
+                            <i class="fas fa-wind amenity-icon" title="Ar Condicionado"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">R$ 80/hora</span>
+                            <button class="btn btn-primary btn-reserve">Reservar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sala 2 -->
+            <div class="col">
+                <div class="card room-card h-100">
+                    <img src="" class="card-img-top" alt="Sala Criativa">
+                    <div class="card-body">
+                        <h5 class="card-title">Sala Criativa</h5>
+                        <p class="card-text">Ambiente descontraído e inspirador para brainstorming e trabalho em equipe.</p>
+                        <div class="amenities mb-3">
+                            <i class="fas fa-wifi amenity-icon" title="Wi-Fi"></i>
+                            <i class="fas fa-chalkboard amenity-icon" title="Quadro"></i>
+                            <i class="fas fa-coffee amenity-icon" title="Café"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">R$ 60/hora</span>
+                            <button class="btn btn-primary btn-reserve">Reservar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sala 3 -->
+            <div class="col">
+                <div class="card room-card h-100">
+                    <img src="" class="card-img-top" alt="Sala Individual">
+                    <div class="card-body">
+                        <h5 class="card-title">Sala Individual</h5>
+                        <p class="card-text">Espaço privativo e silencioso para máxima concentração.</p>
+                        <div class="amenities mb-3">
+                            <i class="fas fa-wifi amenity-icon" title="Wi-Fi"></i>
+                            <i class="fas fa-wind amenity-icon" title="Ar Condicionado"></i>
+                            <i class="fas fa-print amenity-icon" title="Impressora"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">R$ 40/hora</span>
+                            <button class="btn btn-primary btn-reserve">Reservar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer th:replace="~{fragmentos/fragmentos :: rodape}"></footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('.btn.btn-primary.btn-reserve').forEach(button => {
+            button.addEventListener('click', function () {
+
+                const data = document.getElementById('data').value;
+                const horaInicio = document.getElementById('horaInicio').value;
+                const horaFim = document.getElementById('horaFim').value;
+
+                if (!data || !horaInicio || !horaFim) {
+                    alert('Por favor, selecione a data e horários desejados.');
+                    return;
+                }
+                window.location.href = '/usuario/login';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login - Axis</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <th:block th:replace="~{fragmentos/fragmentos :: cabecalho('Axis Coworking')}"></th:block>
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav th:replace="~{fragmentos/fragmentos :: navegacao}"></nav>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow">
+                    <!-- Logo/Título -->
+                    <div class="card-header bg-primary text-white text-center py-3">
+                        <h4 class="mb-0">
+                            <i class="bi bi-person-circle me-2"></i>Login
+                        </h4>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <!-- Alertas -->
+                        <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            Email ou senha inválidos
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+
+                        <div th:if="${param.logout}" class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            Você foi desconectado com sucesso!
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+
+                        <!-- Formulário de Login -->
+                        <form th:action="@{/usuario/login}" method="post" class="needs-validation" novalidate>
+
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">E-mail</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-envelope"></i>
+                                    </span>
+                                    <input type="email" 
+                                           class="form-control" 
+                                           id="email" 
+                                           name="email"       
+                                           value="vitor.brak@hotmail.com"
+                                           required 
+                                           autofocus>
+                                    <div class="invalid-feedback">
+                                        Por favor, insira um email válido
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Senha -->
+                            <div class="mb-3">
+                                <label for="senha" class="form-label">Senha</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-lock"></i>
+                                    </span>
+                                    <input type="password" 
+                                           class="form-control" 
+                                           id="senha"
+                                           name="senha"
+                                           value="teste123"
+                                           required>
+                                    <button class="btn btn-outline-secondary" 
+                                            type="button" 
+                                            id="togglePassword">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <div class="invalid-feedback">
+                                        Por favor, insira sua senha
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Botões -->
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+                                </button>
+                                <a href="/usuario/novo" class="btn btn-outline-primary">
+                                    <i class="bi bi-person-plus me-2"></i>Criar conta
+                                </a>
+                            </div>
+
+                            <!-- Links -->
+                            <div class="text-center mt-3">
+                                <a href="/recuperar-senha" class="text-decoration-none">
+                                    Esqueceu sua senha?
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer th:replace="~{fragmentos/fragmentos :: rodape}"></footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Validação do formulário -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Validação do formulário
+            const forms = document.querySelectorAll('.needs-validation');
+
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+
+            // Toggle de visibilidade da senha
+            const togglePassword = document.querySelector('#togglePassword');
+            const senhaInput = document.querySelector('#senha'); // Alterado para #senha
+
+            if (togglePassword && senhaInput) {  // Verificação de segurança
+                togglePassword.addEventListener('click', function () {
+                    // Alterna entre password e text
+                    const type = senhaInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    senhaInput.setAttribute('type', type);
+
+                    // Alterna o ícone
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('bi-eye');
+                    icon.classList.toggle('bi-eye-slash');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
