@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.gvs.axis.model;
 
 import jakarta.persistence.CollectionTable;
@@ -23,8 +19,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.gvs.axis.enums.TipoPapel;
+import org.gvs.axis.repository.UsuarioRepository;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -36,7 +34,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Usuario {
+public class Usuario {   
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,6 +64,7 @@ public class Usuario {
     private LocalDateTime dataAtualizacao;
 
     @Column(name = "ativo")
+    @Builder.Default
     private Boolean ativo = true;
 
     @ElementCollection(targetClass = TipoPapel.class)
@@ -76,4 +75,12 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario")
     private List<Reserva> reservas;
+
+    public boolean isAtivo() {
+        return this.ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
 }
