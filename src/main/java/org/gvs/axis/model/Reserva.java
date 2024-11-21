@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.gvs.axis.model;
 
 import jakarta.persistence.CascadeType;
@@ -70,7 +66,4 @@ public class Reserva {
     @Column(name = "data_atualizacao")
     @UpdateTimestamp
     private LocalDateTime dataAtualizacao;
-
-    @OneToOne(mappedBy = "reserva", cascade = CascadeType.ALL)
-    private Pagamento pagamento;
 }
