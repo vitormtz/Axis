@@ -2,15 +2,11 @@ package org.gvs.axis.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.gvs.axis.dto.UsuarioDTO;
-import org.gvs.axis.model.Usuario;
 import org.gvs.axis.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,14 +29,6 @@ public class UsuarioController {
 
     @Autowired
     private final UsuarioService usuarioService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @GetMapping("/teste")
-    public String teste(Model model) {
-        return "usuario/teste";
-    }
 
     @GetMapping("/cadastro")
     public String exibirFormularioCadastro(Model model) {
@@ -67,37 +55,9 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("/check-auth")
-    public String checkAuth() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Autenticado: " + auth.isAuthenticated());
-        System.out.println("Principal: " + auth.getPrincipal());
-        System.out.println("Authorities: " + auth.getAuthorities());
-        return "redirect:/";
-    }
-
     @GetMapping("/login")
     public String mostrarPaginaLogin() {
         return "/usuario/login";
-    }
-
-    @PostMapping("/login")
-    public String fazerLogin(String email, String senha, HttpSession session) {
-        try {
-            UsernamePasswordAuthenticationToken token
-                    = new UsernamePasswordAuthenticationToken(email, senha);
-
-            Authentication authentication = null;
-            authentication = authenticationManager.authenticate(token);
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            Usuario usuario = usuarioService.autenticar(email, senha);
-            session.setAttribute("usuarioLogado", usuario);
-
-            return "redirect:/";
-        } catch (Exception e) {
-            return "redirect:/usuario/login?error=true";
-        }
     }
 
     @GetMapping("/logout")
@@ -106,6 +66,6 @@ public class UsuarioController {
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, (org.springframework.security.core.Authentication) auth);
         }
-        return "redirect:/usuario/login?logout";
+        return "redirect:/";
     }
 }
