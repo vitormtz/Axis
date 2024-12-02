@@ -49,7 +49,7 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                 .logoutUrl("/usuario/logout")
-                .logoutSuccessUrl("/usuario/login?logout=true")
+                .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
