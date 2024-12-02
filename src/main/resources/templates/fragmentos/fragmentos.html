@@ -1,52 +1,92 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="pt-BR">
     <head>
     <th:block th:fragment="cabecalho(title)">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title th:text="${title}">Axis Coworking</title>
+        <title th:text="${title}"></title>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     </th:block>
 </head>
 <body>
-    <!-- Navbar Fragment -->
-    <nav th:fragment="navegacao" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <i class="fas fa-building me-2"></i>
-                Axis
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Início</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Salas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Preços</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contato</a>
-                    </li>
-                </ul>
-                <a href="/usuario/cadastro" class="btn btn-outline-primary me-2">
-                    <i class="fas fa-user-plus me-2"></i>Cadastro
-                </a>
-                <a href="/usuario/login" class="btn btn-primary">
-                    <i class="fas fa-sign-in-alt me-2"></i>Login
-                </a>
-            </div>
-        </div>
-    </nav>
+    <!-- Header -->
+    <div th:fragment="header">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+                <div class="container">
+                    <a class="navbar-brand" href="/">
+                        <i class="fas fa-building me-2"></i>
+                        Axis
+                    </a>
 
-    <!-- Footer Fragment -->
-    <footer th:fragment="rodape" class="footer bg-dark text-light py-4 mt-5">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Início</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Salas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Preços</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Contato</a>
+                            </li>
+                        </ul>
+
+                        <!-- Botões para usuários não autenticados -->
+                        <div class="d-flex" sec:authorize="!isAuthenticated()">
+                            <a href="/usuario/cadastro" class="btn btn-outline-primary me-2">
+                                <i class="bi bi-person-plus me-2"></i>
+                                Cadastro
+                            </a>
+                            <a href="/usuario/login" class="btn btn-primary">Login</a>
+                        </div>
+
+                        <!-- Menu dropdown para usuários autenticados -->
+                        <div class="dropdown" sec:authorize="isAuthenticated()">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle me-1"></i>
+                                <span>Bem vindo, </span>
+                                <span id="nome" sec:authentication="principal.nome"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="/usuario/reservas">
+                                        <i class="bi bi-calendar-check me-2"></i>Minhas Reservas
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/usuario/historico">
+                                        <i class="bi bi-clock-history me-2"></i>Histórico
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form th:action="@{/usuario/logout}" method="post" class="dropdown-item">
+                                        <button type="submit" class="btn btn-link text-danger p-0">
+                                            <i class="bi bi-box-arrow-right me-2"></i>Sair
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    </div>
+
+    <!-- Footer -->
+    <footer th:fragment="footer" class="footer bg-dark text-light py-4 mt-5">
         <div class="container">
             <div class="row">                
                 <div class="col-md-4">
