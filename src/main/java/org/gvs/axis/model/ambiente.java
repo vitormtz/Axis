@@ -29,12 +29,12 @@ import org.hibernate.annotations.UpdateTimestamp;
  * @author vitor
  */
 @Entity
-@Table(name = "salas")
+@Table(name = "ambientes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Sala {
+public class Ambiente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +45,9 @@ public class Sala {
 
     @Column(columnDefinition = "TEXT")
     private String descricao;
+
+    @Column(columnDefinition = "TEXT")
+    private String imagem_nome;
 
     @Column(nullable = false)
     private Integer capacidade;
@@ -57,8 +60,8 @@ public class Sala {
     private Boolean ativo = true;
 
     @ElementCollection(targetClass = TipoComodidade.class)
-    @CollectionTable(name = "comodidades_sala",
-            joinColumns = @JoinColumn(name = "sala_id"))
+    @CollectionTable(name = "comodidades_ambiente",
+            joinColumns = @JoinColumn(name = "ambiente_id"))
     @Enumerated(EnumType.STRING)
     @Column(name = "comodidade", nullable = false)
     private Set<TipoComodidade> comodidades;
@@ -71,6 +74,6 @@ public class Sala {
     @UpdateTimestamp
     private LocalDateTime dataAtualizacao;
 
-    @OneToMany(mappedBy = "sala")
+    @OneToMany(mappedBy = "ambiente")
     private List<Reserva> reservas;
 }

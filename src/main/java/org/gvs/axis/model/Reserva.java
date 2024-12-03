@@ -43,8 +43,8 @@ public class Reserva {
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "sala_id", nullable = false)
-    private Sala sala;
+    @JoinColumn(name = "hambiente_id", nullable = false)
+    private Ambiente ambiente;
 
     @Column(name = "hora_inicio", nullable = false)
     private LocalDateTime horaInicio;

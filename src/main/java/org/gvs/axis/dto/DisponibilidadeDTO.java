@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class DisponibilidadeDTO {
 
-    private Long salaId;
+    private Long ambienteId;
     private List<HorarioDisponivelDTO> horariosDisponiveis;
 
     @Data
