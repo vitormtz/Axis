@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
     <head>
-    <th:block th:replace="~{fragmentos/fragmentos :: cabecalho('Axis - Cadastro')}"></th:block>
+    <th:block th:replace="~{fragmentos/layout :: cabecalho('Axis - Cadastro')}"></th:block>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">   
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -9,7 +9,7 @@
 </head>
 <body class="bg-light">
     <!-- Header -->
-    <div th:replace="~{fragmentos/fragmentos :: header}"></div>
+    <div th:replace="~{fragmentos/layout :: header}"></div>
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
@@ -117,7 +117,7 @@
     </div>    
 
     <!-- Footer -->
-    <div th:replace="~{fragmentos/fragmentos :: footer}"></div>
+    <div th:replace="~{fragmentos/layout :: footer}"></div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
