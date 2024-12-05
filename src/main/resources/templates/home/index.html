@@ -5,6 +5,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/index.css" rel="stylesheet" />
 </head>
 <body>
     <!-- Header -->
@@ -18,99 +19,142 @@
         </div>
     </section>
 
-    <!-- Main Content -->
+    <!-- Formulário de Busca -->
     <div class="container my-5">
-        <!-- Filtros -->
-        <div class="filter-section">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label">Data</label>
-                    <input type="date" class="form-control" id="data" min="" required>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Hora Inicial</label>
-                    <input type="time" class="form-control" id="horaInicio" required>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Hora Final</label>
-                    <input type="time" class="form-control" id="horaFim" required>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Capacidade</label>
-                    <select class="form-select" id="capacidade">
-                        <option value="">Qualquer</option>
-                        <option value="1">1 pessoa</option>
-                        <option value="2">2-4 pessoas</option>
-                        <option value="5">5-8 pessoas</option>
-                        <option value="9">9+ pessoas</option>
-                    </select>
+        <form id="searchForm" method="GET">
+            <div class="filter-section mb-4">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label for="data" class="form-label">Data</label>
+                        <input type="date" class="form-control" id="data" name="data" required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="horaInicial" class="form-label">Hora Inicial</label>
+                        <select class="form-select" id="horaInicial" name="horaInicial" required>
+                            <option value="07:00">07:00</option>
+                            <option value="07:30">07:30</option>
+                            <option value="08:00">08:00</option>
+                            <option value="08:30">08:30</option>
+                            <option value="09:00">09:00</option>
+                            <option value="09:30">09:30</option>
+                            <option value="10:00">10:00</option>
+                            <option value="10:30">10:30</option>
+                            <option value="11:00">11:00</option>
+                            <option value="11:30">11:30</option>
+                            <option value="12:00">12:00</option>
+                            <option value="12:30">12:30</option>
+                            <option value="13:00">13:00</option>
+                            <option value="13:30">13:30</option>
+                            <option value="14:00">14:00</option>
+                            <option value="14:30">14:30</option>
+                            <option value="15:00">15:00</option>
+                            <option value="15:30">15:30</option>
+                            <option value="16:00">16:00</option>
+                            <option value="16:30">16:30</option>
+                            <option value="17:00">17:00</option>
+                            <option value="17:30">17:30</option>
+                            <option value="18:00">18:00</option>
+                            <option value="18:30">18:30</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="horaFinal" class="form-label">Hora Final</label>
+                        <select class="form-select" id="horaFinal" name="horaFinal" required>
+                            <option value="07:30">07:30</option>
+                            <option value="08:00">08:00</option>
+                            <option value="08:30">08:30</option>
+                            <option value="09:00">09:00</option>
+                            <option value="09:30">09:30</option>
+                            <option value="10:00">10:00</option>
+                            <option value="10:30">10:30</option>
+                            <option value="11:00">11:00</option>
+                            <option value="11:30">11:30</option>
+                            <option value="12:00">12:00</option>
+                            <option value="12:30">12:30</option>
+                            <option value="13:00">13:00</option>
+                            <option value="13:30">13:30</option>
+                            <option value="14:00">14:00</option>
+                            <option value="14:30">14:30</option>
+                            <option value="15:00">15:00</option>
+                            <option value="15:30">15:30</option>
+                            <option value="16:00">16:00</option>
+                            <option value="16:30">16:30</option>
+                            <option value="17:00">17:00</option>
+                            <option value="17:30">17:30</option>
+                            <option value="18:00">18:00</option>
+                            <option value="18:30">18:30</option>
+                            <option value="19:00">19:00</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="capacidade" class="form-label">Capacidade</label>
+                        <select class="form-select" id="capacidade" name="capacidade">
+                            <option value="1">1 pessoa</option>
+                            <option value="2">2-4 pessoas</option>
+                            <option value="5">5-8 pessoas</option>
+                            <option value="9">9+ pessoas</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Lista de Ambientes -->
-        <h2 class="mb-4">Ambientes Disponíveis</h2>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <!-- Ambiente 1 -->
-            <div class="col">
-                <div class="card room-card h-100">
-                    <img src="" class="card-img-top" alt="Ambiente Executivo">
-                    <div class="card-body">
-                        <h5 class="card-title">Ambiente Executivo</h5>
-                        <p class="card-text">Ambiente amplo e sofisticado, ideal para reuniões importantes e apresentações.</p>
-                        <div class="amenities mb-3">
-                            <i class="fas fa-wifi amenity-icon" title="Wi-Fi"></i>
-                            <i class="fas fa-tv amenity-icon" title="TV"></i>
-                            <i class="fas fa-coffee amenity-icon" title="Café"></i>
-                            <i class="fas fa-wind amenity-icon" title="Ar Condicionado"></i>
+            <div class="mt-4">
+                <h5>Comodidades</h5>
+                <div class="row g-3">
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="projetor" name="comodidades" value="PROJETOR">
+                            <label class="form-check-label" for="projetor">
+                                <i class="bi bi-projector me-1"></i>Projetor
+                            </label>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="h5 mb-0">R$ 80/hora</span>
-                            <button class="btn btn-primary btn-reserve">Reservar</button>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="tv" name="comodidades" value="TV">
+                            <label class="form-check-label" for="tv">
+                                <i class="bi bi-tv me-1"></i>Televisão
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="arCondicionado" name="comodidades" value="AR_CONDICIONADO">
+                            <label class="form-check-label" for="arCondicionado">
+                                <i class="bi bi-thermometer-half me-1"></i>Ar Condicionado
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="quadroBranco" name="comodidades" value="QUADRO_BRANCO">
+                            <label class="form-check-label" for="quadroBranco">
+                                <i class="bi bi-easel me-1"></i>Quadro Branco
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="cafe" name="comodidades" value="CAFE">
+                            <label class="form-check-label" for="cafe">
+                                <i class="bi bi-cup-hot me-1"></i>Café
+                            </label>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Ambiente 2 -->
-            <div class="col">
-                <div class="card room-card h-100">
-                    <img src="" class="card-img-top" alt="Ambiente Criativo">
-                    <div class="card-body">
-                        <h5 class="card-title">Ambiente Criativo</h5>
-                        <p class="card-text">Ambiente descontraído e inspirador para brainstorming e trabalho em equipe.</p>
-                        <div class="amenities mb-3">
-                            <i class="fas fa-wifi amenity-icon" title="Wi-Fi"></i>
-                            <i class="fas fa-chalkboard amenity-icon" title="Quadro"></i>
-                            <i class="fas fa-coffee amenity-icon" title="Café"></i>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="h5 mb-0">R$ 60/hora</span>
-                            <button class="btn btn-primary btn-reserve">Reservar</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Buscar Ambientes</button>
             </div>
+        </form>
 
-            <!-- Ambiente 3 -->
-            <div class="col">
-                <div class="card room-card h-100">
-                    <img src="" class="card-img-top" alt="Ambiente Individual">
-                    <div class="card-body">
-                        <h5 class="card-title">Ambiente Individual</h5>
-                        <p class="card-text">Espaço privativo e silencioso para máxima concentração.</p>
-                        <div class="amenities mb-3">
-                            <i class="fas fa-wifi amenity-icon" title="Wi-Fi"></i>
-                            <i class="fas fa-wind amenity-icon" title="Ar Condicionado"></i>
-                            <i class="fas fa-print amenity-icon" title="Impressora"></i>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="h5 mb-0">R$ 40/hora</span>
-                            <button class="btn btn-primary btn-reserve">Reservar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Container para os resultados -->
+        <div id="resultados" class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+            <!-- Os cards dos ambientes serão inseridos aqui -->
         </div>
     </div>
 
@@ -120,49 +164,6 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.querySelectorAll('.btn.btn-primary.btn-reserve').forEach(button => {
-            button.addEventListener('click', function () {
-
-                let data = document.getElementById('data').value;
-                let horaInicio = document.getElementById('horaInicio').value;
-                let horaFim = document.getElementById('horaFim').value;
-
-                if (!data || !horaInicio || !horaFim) {
-                    alert('Por favor, selecione a data e horários desejados.');
-                    return;
-                }
-                window.location.href = '/usuario/login';
-            });
-        });
-    </script>
-    <script>
-        function formatarNome(nomeCompleto) {
-
-            let partes = nomeCompleto.trim().split(/\s+/);
-
-            if (partes.length === 1) {
-                return partes[0];
-            }
-
-            let primeiroNome = partes[0];
-            let ultimoNome = partes[partes.length - 1];
-
-            return `${primeiroNome} ${ultimoNome}`;
-        }
-
-        function atualizarNomeUsuario() {
-
-            let spanNome = document.querySelector('span#nome');
-
-            if (spanNome) {
-                let nomeCompleto = spanNome.textContent;
-                let nomeFormatado = formatarNome(nomeCompleto);
-
-                spanNome.textContent = nomeFormatado;
-            }
-        }
-        document.addEventListener('DOMContentLoaded', atualizarNomeUsuario);
-    </script>
+    <script src="/js/index.js"></script>
 </body>
 </html>
