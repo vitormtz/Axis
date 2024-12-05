@@ -29,4 +29,15 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
             @Param("ambienteId") Long ambienteId,
             @Param("dataInicio") LocalDateTime dataInicio,
             @Param("dataFim") LocalDateTime dataFim);
+
+    @Query("SELECT r FROM Reserva r " +
+           "WHERE r.ambiente.id = :ambienteId " +
+           "AND r.horaInicio <= :horaFim " +
+           "AND r.horaFim >= :horaInicio " +
+           "AND r.status != 'CANCELADA'")
+    List<Reserva> findConflitantes(
+        @Param("ambienteId") Long ambienteId,
+        @Param("horaInicio") LocalDateTime horaInicio,
+        @Param("horaFim") LocalDateTime horaFim
+    );
 }

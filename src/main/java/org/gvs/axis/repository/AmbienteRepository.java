@@ -15,6 +15,8 @@ import org.springframework.data.repository.query.Param;
  */
 public interface AmbienteRepository extends JpaRepository<Ambiente, Long> {
 
+    List<Ambiente> findAllByAtivoTrue();
+
     @Query("SELECT DISTINCT a FROM Ambiente a LEFT JOIN a.comodidades c "
             + "WHERE (:capacidadeMinima IS NULL OR a.capacidade >= :capacidadeMinima) "
             + "AND (:comodidades IS NULL OR c IN :comodidades) "
