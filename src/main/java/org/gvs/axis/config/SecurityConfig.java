@@ -34,7 +34,9 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                 // Rotas públicas
-                .requestMatchers("/", "/home", "/usuario/cadastro", "/usuario/login", "/api/ambientes/buscar",
+                .requestMatchers("/", "/home", "/usuario/cadastro", 
+                        "/usuario/login", "ambiente/buscar", 
+                        "usuario/status", "/reserva/criar", 
                         "/css/**", "/js/**", "/img/**").permitAll()
                 .anyRequest().authenticated()
                 )

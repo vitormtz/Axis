@@ -43,7 +43,7 @@ public class Reserva {
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "hambiente_id", nullable = false)
+    @JoinColumn(name = "ambiente_id", nullable = false)
     private Ambiente ambiente;
 
     @Column(name = "hora_inicio", nullable = false)

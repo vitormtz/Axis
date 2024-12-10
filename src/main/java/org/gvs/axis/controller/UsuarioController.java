@@ -1,10 +1,14 @@
 package org.gvs.axis.controller;
 
 import jakarta.validation.Valid;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import org.gvs.axis.dto.UsuarioDTO;
 import org.gvs.axis.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,5 +57,21 @@ public class UsuarioController {
     @GetMapping("/login")
     public String mostrarPaginaLogin() {
         return "/usuario/login";
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity verificarStatus() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        boolean isLogado = auth != null
+                && auth.isAuthenticated()
+                && !auth.getPrincipal().equals("anonymousUser");
+
+        ArrayList<Object> status = new ArrayList<>();
+
+        status.add(isLogado);
+        status.add(isLogado ? auth.getName() : null);
+
+        return ResponseEntity.ok(status);
     }
 }

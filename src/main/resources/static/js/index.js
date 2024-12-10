@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         try {
-            const response = await fetch(`/api/ambientes/buscar?${params.toString()}`);
+            const response = await fetch(`ambiente/buscar?${params.toString()}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -137,12 +137,85 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// Função para reservar ambiente (implementar conforme necessário)
-function reservarAmbiente(id) {
-    console.log('Reservar ambiente:', id);
-    // Implementar a lógica de reserva
-}
+function reservarAmbiente(ambienteId) {
+    const data = document.getElementById('data').value;
+    const horaInicio = document.getElementById('horaInicial').value;
+    const horaFim = document.getElementById('horaFinal').value;
 
+    if (!data || !horaInicio || !horaFim) {
+        alert('Por favor, selecione a data e horários para sua reserva.');
+        return;
+    }
+
+    // Formatar data e hora para o formato esperado pelo backend
+    const dataFormatada = `${data}T00:00:00`;
+    const horaInicioFormatada = `${data}T${horaInicio}:00`;
+    const horaFimFormatada = `${data}T${horaFim}:00`;
+
+    fetch('/usuario/status')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao verificar status do usuário');
+                }
+                return response.json();
+            })
+            .then(statusData => {
+                if (!statusData[0]) {
+                    window.location.href = '/usuario/login?redirect=' + encodeURIComponent(window.location.pathname);
+                    throw new Error('redirect'); // Interrompe a cadeia de promises
+                }
+
+                const reservaData = {
+                    ambienteId: ambienteId,
+                    data: dataFormatada,
+                    horaInicio: horaInicioFormatada,
+                    horaFim: horaFimFormatada
+                };
+
+                return fetch('/reserva/criar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(reservaData)
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(text || 'Erro ao processar a reserva');
+                    });
+                }
+                return response.json();
+            })
+            .then(reserva => {
+                Swal.fire({
+                    title: 'Reserva Confirmada!',
+                    text: `Sua reserva foi realizada com sucesso para o dia ${dateFns.format(dateFns.parseISO(data), "dd/MM/yyyy")} das ${horaInicio} às ${horaFim}.`,
+                    icon: 'success',
+                    confirmButtonText: 'Ver Minhas Reservas',
+                    showCancelButton: true,
+                    cancelButtonText: 'Continuar Navegando'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/usuario/minhas-reservas';
+                    } else {
+                        document.getElementById('searchForm').dispatchEvent(new Event('submit'));
+                    }
+                });
+            })
+            .catch(error => {
+                if (error.message !== 'redirect') {
+                    console.error('Erro:', error);
+                    Swal.fire({
+                        title: 'Erro!',
+                        text: error.message || 'Não foi possível realizar a reserva. Por favor, tente novamente.',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    });
+                }
+            });
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     const horaInicial = document.getElementById('horaInicial');

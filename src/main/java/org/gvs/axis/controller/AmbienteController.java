@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author vitor
  */
 @RestController
-@RequestMapping("/api/ambientes")
+@RequestMapping("/ambiente")
 @RequiredArgsConstructor
 public class AmbienteController {
 
