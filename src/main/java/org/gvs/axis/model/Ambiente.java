@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 import org.gvs.axis.enums.TipoComodidade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  *
@@ -74,6 +75,7 @@ public class Ambiente {
     @UpdateTimestamp
     private LocalDateTime dataAtualizacao;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "ambiente")
     private List<Reserva> reservas;
 }

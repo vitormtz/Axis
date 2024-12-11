@@ -59,10 +59,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             const response = await fetch(`ambiente/buscar?${params.toString()}`);
+            const textResponse = await response.text();
+            
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            const ambientes = await response.json();
+            const ambientes = JSON.parse(textResponse);
             atualizarListaAmbientes(ambientes);
         } catch (error) {
             console.error('Erro ao buscar ambientes:', error);

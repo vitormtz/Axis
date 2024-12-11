@@ -21,6 +21,8 @@ import lombok.NoArgsConstructor;
 import org.gvs.axis.enums.StatusReserva;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  *
@@ -39,10 +41,12 @@ public class Reserva {
     private Long id;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "ambiente_id", nullable = false)
     private Ambiente ambiente;
 

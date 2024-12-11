@@ -23,6 +23,7 @@ import org.gvs.axis.repository.UsuarioRepository;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  *
@@ -73,6 +74,7 @@ public class Usuario {
     @Column(name = "papel", nullable = false)
     private List<TipoPapel> papeis;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "usuario")
     private List<Reserva> reservas;
 
