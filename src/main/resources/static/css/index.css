@@ -7,3 +7,15 @@
 .comodidade {
     font-size: 1.5em;
 }
+
+#resultados {
+    justify-content: center;
+}
+
+.row > :last-child {
+    margin-right: auto;
+}
+
+#resultados > div:has(> p:first-child) {
+    margin: inherit;
+}
