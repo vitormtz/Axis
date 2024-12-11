@@ -121,32 +121,9 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="/js/cadastro.js"></script>
 
-    <!-- Validação do formulário -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const forms = document.querySelectorAll('.needs-validation');
-
-            Array.from(forms).forEach(form => {
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        });
-    </script>
-
-    <!-- Máscara do CPF -->
-    <script>
-        $('#cpf').mask('999.999.999-99');
-    </script>
-
-    <!-- Máscara do telefone -->
-    <script>
-        $('#telefone').mask('(99) 99999-9999');
-    </script>
 </body>
 </html>
