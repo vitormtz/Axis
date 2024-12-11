@@ -18,11 +18,11 @@ public interface AmbienteRepository extends JpaRepository<Ambiente, Long> {
     List<Ambiente> findAllByAtivoTrue();
 
     @Query("SELECT DISTINCT a FROM Ambiente a LEFT JOIN a.comodidades c "
-            + "WHERE (:capacidadeMinima IS NULL OR a.capacidade >= :capacidadeMinima) "
+            + "WHERE (:capacidadeMaxima IS NULL OR a.capacidade <= :capacidadeMaxima) "
             + "AND (:comodidades IS NULL OR c IN :comodidades) "
             + "AND a.ativo = true")
     List<Ambiente> findByFiltros(
-            @Param("capacidadeMinima") Integer capacidadeMinima,
+            @Param("capacidadeMaxima") Integer capacidadeMaxima,
             @Param("comodidades") Set<TipoComodidade> comodidades);
 
     @Query("SELECT DISTINCT a FROM Ambiente a "
@@ -31,14 +31,14 @@ public interface AmbienteRepository extends JpaRepository<Ambiente, Long> {
             + "    WHERE r.horaInicio <= :fim AND r.horaFim >= :inicio "
             + "    AND r.status NOT IN ('CANCELADA')"
             + ") "
-            + "AND (:capacidadeMinima IS NULL OR a.capacidade >= :capacidadeMinima) "
+            + "AND (:capacidadeMaxima IS NULL OR a.capacidade <= :capacidadeMaxima) "
             + "AND (COALESCE(:comodidades, NULL) IS NULL OR "
             + "    EXISTS (SELECT c FROM a.comodidades c WHERE c IN :comodidades)) "
             + "AND a.ativo = true")
     List<Ambiente> findAmbientesDisponiveis(
             @Param("inicio") LocalDateTime inicio,
             @Param("fim") LocalDateTime fim,
-            @Param("capacidadeMinima") Integer capacidadeMinima,
+            @Param("capacidadeMaxima") Integer capacidadeMaxima,
             @Param("comodidades") Set<TipoComodidade> comodidades);
 
     @Query("SELECT COUNT(r) = 0 FROM Reserva r "
