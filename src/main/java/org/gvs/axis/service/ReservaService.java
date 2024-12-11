@@ -19,6 +19,7 @@ import org.gvs.axis.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -206,14 +207,15 @@ public class ReservaService {
         return response;
     }
 
-    private void validarDisponibilidade(Long ambienteId, LocalDateTime data, LocalDateTime horaInicio, LocalDateTime horaFim) {
-        List<Reserva> reservasConflitantes = reservaRepository.findConflitantes(ambienteId, data, horaInicio, horaFim);
-
-        if (!reservasConflitantes.isEmpty()) {
+    @Scheduled(fixedRate = 1800000) // 30 minutos em milissegundos
+    @Transactional
+    public void verificarReservasExpiradas() {
+        try {
+            reservaRepository.atualizarStatusReservasExpiradas(LocalDateTime.now());
+        } catch (Exception e) {
             throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "Já existe uma reserva para este ambiente no horário selecionado"
-            );
+                    HttpStatus.FAILED_DEPENDENCY,
+                    "Erro ao verificar reservas expiradas");
         }
     }
 }
