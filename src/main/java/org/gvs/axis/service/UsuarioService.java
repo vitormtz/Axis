@@ -3,7 +3,6 @@ package org.gvs.axis.service;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.gvs.axis.dto.UsuarioDTO;
 import org.gvs.axis.model.Usuario;
@@ -33,6 +32,16 @@ public class UsuarioService {
 
     @Autowired
     private EmailValidator emailValidator;
+
+    private UsuarioDTO converterParaDTO(Usuario usuario) {
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setId(usuario.getId());
+        dto.setNome(usuario.getNome());
+        dto.setEmail(usuario.getEmail());
+        dto.setCpf(usuario.getCpf());
+        dto.setTelefone(usuario.getTelefone());
+        return dto;
+    }
 
     @Transactional
     public Usuario cadastrar(UsuarioDTO dto) {
@@ -79,45 +88,40 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
-    public Usuario buscarPorEmail(String email) {
-        return usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    public UsuarioDTO buscarDTOPorId(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+        return converterParaDTO(usuario);
     }
 
     @Transactional(readOnly = true)
-    public Optional<Usuario> buscarPorCpf(String cpf) {
-        return usuarioRepository.findByCpf(cpf);
+    public UsuarioDTO buscarDTOPorEmail(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        return converterParaDTO(usuario);
     }
 
     @Transactional
-    public Usuario atualizar(Long id, UsuarioDTO dto) {
-        Usuario usuario = buscarPorId(id);
+    public UsuarioDTO atualizar(UsuarioDTO dto) {
+        Usuario usuario = usuarioRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        usuarioRepository.findByEmail(dto.getEmail())
-                .ifPresent(u -> {
-                    if (!u.getId().equals(id)) {
-                        throw new IllegalArgumentException("Email já está em uso");
-                    }
-                });
+        // Validações
+        NomeValidator.validar(dto.getNome());
+        TelefoneValidator.validar(dto.getTelefone());
 
-        usuarioRepository.findByCpf(dto.getCpf())
-                .ifPresent(u -> {
-                    if (!u.getId().equals(id)) {
-                        throw new IllegalArgumentException("CPF já está em uso");
-                    }
-                });
-
+        // Atualiza os dados
         usuario.setNome(dto.getNome());
-        usuario.setEmail(dto.getEmail());
-        usuario.setCpf(dto.getCpf());
-        usuario.setTelefone(dto.getTelefone());
+        usuario.setTelefone(TelefoneValidator.limpar(dto.getTelefone()));
         usuario.setDataAtualizacao(LocalDateTime.now());
 
+        // Atualiza a senha se fornecida
         if (dto.getSenha() != null && !dto.getSenha().trim().isEmpty()) {
-            usuario.setSenha(dto.getSenha());
+            usuario.setSenha(PasswordEncryption.criptografarSenha(dto.getSenha()));
         }
 
-        return usuarioRepository.save(usuario);
+        usuario = usuarioRepository.save(usuario);
+        return converterParaDTO(usuario);
     }
 
     @Transactional
