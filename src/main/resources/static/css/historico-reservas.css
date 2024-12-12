@@ -15,11 +15,6 @@
     background-color: #e9ecef;
 }
 
-.nav-link.active {
-    background-color: #0d6efd;
-    color: white;
-}
-
 .profile-section {
     padding: 30px;
 }
@@ -36,4 +31,116 @@
 
 .footer.bg-dark.text-light.py-4.mt-5 {
     margin-top: 13px !important;
+}
+
+:root {
+    --primary: #972D2D;
+    --primary-light: #AB4242;
+    --primary-dark: #822626;
+    --secondary: #FFFFFF;
+    --tertiary: #E8E8E8;
+    --text-dark: #333333;
+    --text-light: #FFFFFF;
+    --border-color: #DDDDDD;
+}
+
+body {
+    background-color: var(--tertiary) !important;
+}
+
+.navbar {
+    background-color: var(--secondary) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.sidebar {
+    background-color: var(--secondary);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 2rem;
+}
+
+.sidebar h4 {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.sidebar .nav-link {
+    color: var(--text-dark);
+    padding: 0.5rem 0;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+    color: var(--primary);
+    padding-left: 0.5rem;
+}
+
+.nav-link.active {
+    font-weight: 500;
+}
+
+.profile-section {
+    padding: 2rem;
+}
+
+.section-title {
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    border-bottom: 2px solid var(--border-color);
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.8em;
+}
+
+.bg-success {
+    background-color: #2E7D32 !important;
+}
+
+.bg-danger {
+    background-color: var(--primary) !important;
+}
+
+footer {
+    background-color: var(--primary);
+    color: var(--text-light);
+    margin-top: 3rem;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        margin-bottom: 2rem;
+    }
+
+    .profile-section {
+        padding: 1rem;
+    }
+
+    .table-responsive {
+        margin-bottom: 1rem;
+    }
 }

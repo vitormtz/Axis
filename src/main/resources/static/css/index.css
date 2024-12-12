@@ -27,3 +27,182 @@
 .container .row.justify-content-center .col-md-8 {
     margin-right: initial;
 }
+
+:root {
+    --primary: #972D2D;
+    --primary-light: #AB4242;
+    --primary-dark: #822626;
+    --secondary: #FFFFFF;
+    --tertiary: #E8E8E8;
+    --text-dark: #333333;
+    --text-light: #FFFFFF;
+    --border-color: #DDDDDD;
+}
+
+body {
+    color: var(--text-dark);
+    background-color: var(--secondary);
+}
+
+.navbar {
+    background-color: var(--secondary) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    color: var(--primary) !important;
+}
+
+.nav-link {
+    color: var(--text-dark) !important;
+}
+
+.nav-link:hover {
+    color: var(--primary) !important;
+}
+
+.hero-section {
+    background-color: var(--primary);
+    color: var(--text-light);
+    padding: 4rem 0;
+}
+
+.filter-section {
+    background-color: var(--secondary);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.form-control, .form-select {
+    border-color: var(--border-color);
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.2rem rgba(151, 45, 45, 0.25);
+}
+
+.btn-primary {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: var(--text-light) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark) !important;
+    border-color: var(--primary-dark) !important;
+}
+
+.btn-outline-primary {
+    color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    background-color: transparent !important;
+}
+
+.btn-outline-primary:hover  {
+    color: var(--text-light) !important;
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+
+#sobre {
+    background-color: var(--tertiary) !important;
+}
+
+.text-primary {
+    color: var(--primary) !important;
+}
+
+.card {
+    border-color: var(--border-color);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+footer {
+    background-color: var(--primary);
+    color: var(--text-light);
+}
+
+footer a {
+    color: var(--text-light);
+}
+
+footer a:hover {
+    color: var(--tertiary);
+}
+
+.form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+hr {
+    border-color: var(--border-color);
+}
+
+.swal2-styled.swal2-confirm {
+    background-color: #972D2D !important;
+    border-color: #972D2D !important;
+    color: #FFFFFF !important;
+    padding: 0.5rem 1.5rem !important;
+    font-size: 1rem !important;
+    border-radius: 0.375rem !important;
+    box-shadow: none !important;
+}
+
+.swal2-styled.swal2-confirm:hover {
+    background-color: #822626 !important;
+    border-color: #822626 !important;
+}
+
+.swal2-styled.swal2-confirm:focus {
+    box-shadow: 0 0 0 0.2rem rgba(151, 45, 45, 0.25) !important;
+}
+
+.swal2-styled.swal2-cancel {
+    background-color: #333333 !important;
+    border-color: #333333 !important;
+    color: #FFFFFF !important;
+    padding: 0.5rem 1.5rem !important;
+    font-size: 1rem !important;
+    border-radius: 0.375rem !important;
+    box-shadow: none !important;
+}
+
+.swal2-styled.swal2-cancel:hover {
+    background-color: #1a1a1a !important;
+    border-color: #1a1a1a !important;
+}
+
+.swal2-styled.swal2-cancel:focus {
+    box-shadow: 0 0 0 0.2rem rgba(51, 51, 51, 0.25) !important;
+}
+
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/img_04.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: var(--text-light);
+    padding: 6rem 0;
+    position: relative;
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    margin-bottom: 2rem;
+}

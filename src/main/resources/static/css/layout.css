@@ -1,12 +1,3 @@
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #1f2937;
-    padding: 20px 0;
-}
-
 :root {
     --primary: #972D2D;
     --primary-light: #AB4242;
@@ -16,10 +7,6 @@ footer {
     --text-dark: #333333;
     --text-light: #FFFFFF;
     --border-color: #DDDDDD;
-}
-
-body {
-    background-color: var(--tertiary) !important;
 }
 
 .navbar {
@@ -37,26 +24,6 @@ body {
 
 .nav-link:hover {
     color: var(--primary) !important;
-}
-
-.card {
-    border: none;
-}
-
-.card-header {
-    background-color: var(--primary) !important;
-    color: var(--text-light) !important;
-    border-bottom: none;
-}
-
-.form-control:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 0.2rem rgba(151, 45, 45, 0.25);
-}
-
-.input-group-text {
-    background-color: var(--secondary);
-    border-color: var(--border-color);
 }
 
 .btn-primary {
@@ -82,43 +49,58 @@ body {
     border-color: var(--primary) !important;
 }
 
-.btn-outline-secondary {
-    color: var(--text-dark) !important;
-    border-color: var(--border-color) !important;
+.dropdown-menu {
+    border-color: var(--border-color);
 }
 
-.btn-outline-secondary:hover {
+.dropdown-item:hover {
     background-color: var(--tertiary) !important;
-    border-color: var(--border-color) !important;
-    color: var(--text-dark) !important;
+}
+
+.dropdown-item:active {
+    background-color: var(--primary) !important;
+    color: var(--text-light) !important;
+}
+
+.btn-link {
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    color: var(--primary-dark) !important;
 }
 
 footer {
-    background-color: var(--primary);
+    background-color: var(--primary) !important;
     color: var(--text-light);
 }
 
 footer a {
-    color: var(--text-light);
+    color: var(--text-light) !important;
+    text-decoration: none;
 }
 
 footer a:hover {
-    color: var(--tertiary);
+    color: var(--tertiary) !important;
 }
 
-.alert-success {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-    color: #155724;
+.social-links a {
+    font-size: 1.2rem;
+    transition: color 0.3s;
 }
 
-.alert-danger {
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-    color: #721c24;
+.social-links a:hover {
+    color: var(--tertiary) !important;
 }
 
-.form-label {
-    color: var(--text-dark);
-    font-weight: 500;
+.dropdown-divider {
+    border-color: var(--border-color);
+}
+
+.text-danger {
+    color: var(--primary) !important;
+}
+
+.text-danger:hover {
+    color: var(--primary-dark) !important;
 }
