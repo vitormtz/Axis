@@ -21,6 +21,10 @@
 
     <!-- Formulário de Busca -->
     <div class="container my-5">
+
+        <!-- Linha divisória -->
+        <hr class="my-4 bg-light">
+
         <form id="searchForm" method="GET">
             <div class="filter-section mb-4">
                 <div class="row g-3">
@@ -168,11 +172,73 @@
             </div>
         </form>
 
+        <!-- Linha divisória -->
+        <hr class="my-4 bg-light">
+
         <!-- Container para os resultados -->
         <div id="resultados" class="row row-cols-1 row-cols-md-3 g-4 mt-4">
             <!-- Os cards dos ambientes serão inseridos aqui -->
         </div>
     </div>
+
+    <!-- Sobre Nós -->
+    <section id="sobre" class="section py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-center mb-4">Sobre Nós</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <p class="lead mb-4">
+                        A Axis Coworking é um espaço moderno e dinâmico projetado para profissionais e empresas que buscam um ambiente inspirador para trabalhar. Com mais de 5 anos de experiência, oferecemos ambientes versáteis e totalmente equipados para atender às suas necessidades.
+                    </p>
+                    <div class="row mt-5">
+                        <div class="col-md-4 mb-4">
+                            <i class="bi bi-building fs-1 text-primary mb-3"></i>
+                            <h4>Localização Premium</h4>
+                            <p>Ambiente estrategicamente localizado no coração da cidade</p>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <i class="bi bi-wifi fs-1 text-primary mb-3"></i>
+                            <h4>Infraestrutura Completa</h4>
+                            <p>Internet de alta velocidade e equipamentos modernos</p>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <i class="bi bi-shield-check fs-1 text-primary mb-3"></i>
+                            <h4>Segurança 24/7</h4>
+                            <p>Acesso controlado e monitoramento 24 horas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contato" class="section py-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-4">Entre em Contato</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="row mt-5 text-center">
+                        <div class="col-md-4">
+                            <i class="bi bi-geo-alt fs-1 text-primary mb-3"></i>
+                            <h5>Endereço</h5>
+                            <p>Rua, 123<br>Cidade - Estado</p>
+                        </div>
+                        <div class="col-md-4">
+                            <i class="bi bi-telephone fs-1 text-primary mb-3"></i>
+                            <h5>Telefone</h5>
+                            <p>(11) 99999-9999</p>
+                        </div>
+                        <div class="col-md-4">
+                            <i class="bi bi-envelope fs-1 text-primary mb-3"></i>
+                            <h5>Email</h5>
+                            <p>email@contato.com.br</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <div th:replace="~{fragmentos/layout :: footer}"></div>

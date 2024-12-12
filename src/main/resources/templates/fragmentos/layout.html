@@ -32,13 +32,10 @@
                                 <a class="nav-link" href="/">Início</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Ambientes</a>
+                                <a class="nav-link" href="/#sobre">Sobre Nós</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Preços</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Contato</a>
+                                <a class="nav-link" href="/#contato">Contato</a>
                             </li>
                         </ul>
 
@@ -81,27 +78,36 @@
     </div>
 
     <!-- Footer -->
-    <footer th:fragment="footer" class="footer bg-dark text-light py-4 mt-5">
+    <footer class="bg-dark text-light py-4 mt-5">
         <div class="container">
-            <div class="row">                
-                <div class="col-md-4">
-                    <h5>Sobre o Axis</h5>
-                    <p>Espaços de coworking modernos e profissionais para impulsionar sua produtividade.</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Contato</h5>
-                    <p>
-                        <i class="fas fa-envelope me-2"></i> contato@axis.com.br<br>
-                        <i class="fas fa-phone me-2"></i> (11) 9999-9999
-                    </p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Redes Sociais</h5>
-                    <div class="social-icons">
-                        <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-white me-3"><i class="fab fa-linkedin"></i></a>
+            <div class="row">
+                <!-- Informações da Empresa -->
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Axis Coworking</h5>
+                    <p class="mb-2">Seu espaço de trabalho ideal no coração da cidade.</p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="text-light me-3"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="text-light me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-light me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-light"><i class="bi bi-twitter"></i></a>
                     </div>
+                </div>
+
+                <!-- Links Úteis -->
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Links Úteis</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/termos" class="text-light text-decoration-none">Termos de Uso</a></li>
+                        <li class="mb-2"><a href="/privacidade" class="text-light text-decoration-none">Política de Privacidade</a></li>
+                    </ul>
+                </div>
+
+                <!-- Horário de Funcionamento -->
+                <div class="col-md-4">
+                    <h5 class="mb-3">Horário de Funcionamento</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="bi bi-clock me-2"></i>Segunda a Segunda: 07h às 23h</li>
+                    </ul>
                 </div>
             </div>
         </div>

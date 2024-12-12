@@ -19,3 +19,11 @@
 #resultados > div:has(> p:first-child) {
     margin: inherit;
 }
+
+#sobre .container div .col-md-8.text-center {
+    margin-right: initial;
+}
+
+.container .row.justify-content-center .col-md-8 {
+    margin-right: initial;
+}
