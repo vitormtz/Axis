@@ -23,7 +23,6 @@ public class AmbienteService {
         LocalDateTime horaInicio = LocalDateTime.of(busca.getData(), busca.getHoraInicial());
         LocalDateTime horaFim = LocalDateTime.of(busca.getData(), busca.getHoraFinal());
 
-        // Usar a query existente do AmbienteRepository que já tem toda a lógica necessária
         return ambienteRepository.findAmbientesDisponiveis(
                 horaInicio,
                 horaFim,

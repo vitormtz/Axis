@@ -41,7 +41,6 @@ public class ReservaService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    // Método existente
     public boolean verificarDisponibilidade(Long ambienteId, LocalDateTime data,
             LocalTime horaInicio, LocalTime horaFim, Long reservaAtualId) {
         validarHorarioFuncionamento(horaInicio, horaFim);
@@ -68,7 +67,6 @@ public class ReservaService {
         return reservasSobrepostas.isEmpty();
     }
 
-    // Novo método sobrecarregado
     public boolean verificarDisponibilidade(Long ambienteId, LocalDateTime data,
             LocalTime horaInicio, LocalTime horaFim) {
         return verificarDisponibilidade(ambienteId, data, horaInicio, horaFim, null);
@@ -76,8 +74,8 @@ public class ReservaService {
 
     @Transactional
     public ReservaResponse criarReserva(ReservaRequest request, String email) {
-        // Buscar usuário
 
+        // Buscar usuário
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Usuário não encontrado"

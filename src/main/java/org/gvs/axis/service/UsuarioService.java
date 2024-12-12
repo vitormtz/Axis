@@ -106,7 +106,6 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        // Validações
         NomeValidator.validar(dto.getNome());
         TelefoneValidator.validar(dto.getTelefone());
 
