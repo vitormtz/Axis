@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.gvs.axis.dto.AtualizarReservaDTO;
 import org.gvs.axis.dto.request.ReservaRequest;
 import org.gvs.axis.dto.response.ReservaResponse;
 import org.gvs.axis.enums.StatusReserva;
@@ -39,6 +40,39 @@ public class ReservaService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    // Método existente
+    public boolean verificarDisponibilidade(Long ambienteId, LocalDateTime data,
+            LocalTime horaInicio, LocalTime horaFim, Long reservaAtualId) {
+        validarHorarioFuncionamento(horaInicio, horaFim);
+        validarDataFutura(data);
+
+        LocalDateTime inicioDateTime = data.with(horaInicio);
+        LocalDateTime fimDateTime = data.with(horaFim);
+
+        // Se o horário já passou, não permite alteração
+        if (inicioDateTime.isBefore(LocalDateTime.now())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Não é possível reservar ou alterar para um horário que já passou"
+            );
+        }
+
+        List<Reserva> reservasSobrepostas = reservaRepository.findReservasSobrepostas(
+                ambienteId,
+                inicioDateTime,
+                fimDateTime,
+                reservaAtualId != null ? reservaAtualId : 0L
+        );
+
+        return reservasSobrepostas.isEmpty();
+    }
+
+    // Novo método sobrecarregado
+    public boolean verificarDisponibilidade(Long ambienteId, LocalDateTime data,
+            LocalTime horaInicio, LocalTime horaFim) {
+        return verificarDisponibilidade(ambienteId, data, horaInicio, horaFim, null);
+    }
 
     @Transactional
     public ReservaResponse criarReserva(ReservaRequest request, String email) {
@@ -75,6 +109,83 @@ public class ReservaService {
         reserva = reservaRepository.save(reserva);
 
         return converterParaResponse(reserva);
+    }
+
+    @Transactional
+    public ReservaResponse alterarReserva(Long id, AtualizarReservaDTO dto, String email) {
+        // Buscar a reserva e verificar se pertence ao usuário
+        Reserva reserva = reservaRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Reserva não encontrada"
+        ));
+
+        if (!reserva.getUsuario().getEmail().equals(email)) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN, "Não autorizado a alterar esta reserva"
+            );
+        }
+
+        // Verificar se a reserva pode ser alterada
+        if (reserva.getStatus() != StatusReserva.CONFIRMADA) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Apenas reservas confirmadas podem ser alteradas"
+            );
+        }
+
+        // Validar novo horário
+        LocalDateTime dataHora = dto.getData().atTime(dto.getHoraInicio());
+
+        // Verificar disponibilidade considerando a reserva atual
+        if (!verificarDisponibilidade(
+                reserva.getAmbiente().getId(),
+                dataHora,
+                dto.getHoraInicio(),
+                dto.getHoraFim(),
+                reserva.getId())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Já existe uma reserva para este ambiente no período selecionado"
+            );
+        }
+
+        // Calcular novo valor
+        double horasReservadas = ChronoUnit.MINUTES.between(
+                dto.getHoraInicio(),
+                dto.getHoraFim()
+        ) / 60.0;
+
+        BigDecimal novoValor = BigDecimal.valueOf(
+                reserva.getAmbiente().getValorHora().doubleValue() * horasReservadas
+        );
+
+        // Atualizar a reserva
+        reserva.setHoraInicio(dataHora);
+        reserva.setHoraFim(dto.getData().atTime(dto.getHoraFim()).plusMinutes(30));
+        reserva.setValorTotal(novoValor);
+        reserva.setDataAtualizacao(LocalDateTime.now());
+
+        reserva = reservaRepository.save(reserva);
+
+        return converterParaResponse(reserva);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReservaResponse> buscarReservasAtivas(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Usuário não encontrado"
+        ));
+
+        List<StatusReserva> statusAtivas = Arrays.asList(StatusReserva.CONFIRMADA, StatusReserva.PENDENTE);
+        List<Reserva> reservas = reservaRepository.findByUsuarioAndStatusInOrderByDataCriacaoDesc(usuario, statusAtivas);
+
+        return reservas.stream()
+                .map(reserva -> {
+                    ReservaResponse response = converterParaResponse(reserva);
+                    response.setHoraFim(response.getHoraFim().minusMinutes(30));
+                    return response;
+                })
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -117,13 +228,13 @@ public class ReservaService {
     }
 
     @Transactional
-    public ReservaResponse cancelarReserva(Long id, String username) {
-        Reserva reserva = reservaRepository.findByIdAndUsuarioNome(id, username)
+    public ReservaResponse cancelarReserva(Long id, String email) {
+        Reserva reserva = reservaRepository.findByIdAndUsuarioEmail(id, email)
                 .orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Reserva não encontrada"
         ));
 
-        if (reserva.getDataCriacao().isBefore(LocalDateTime.now())) {
+        if (reserva.getHoraInicio().isBefore(LocalDateTime.now())) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Não é possível cancelar reservas passadas"
             );
@@ -139,14 +250,6 @@ public class ReservaService {
         reserva = reservaRepository.save(reserva);
 
         return converterParaResponse(reserva);
-    }
-
-    public boolean verificarDisponibilidade(Long ambienteId, LocalDateTime data,
-            LocalTime horaInicio, LocalTime horaFim) {
-        validarHorarioFuncionamento(horaInicio, horaFim);
-        validarDataFutura(data);
-
-        return reservaRepository.findConflitantes(ambienteId, data, horaInicio.atDate(data.toLocalDate()), horaFim.atDate(data.toLocalDate())).isEmpty();
     }
 
     public List<LocalTime> buscarHorariosDisponiveis(Long ambienteId, LocalDateTime data) {

@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.gvs.axis.dto.AtualizarReservaDTO;
 import org.gvs.axis.dto.UsuarioDTO;
 import org.gvs.axis.dto.response.ReservaResponse;
 import org.gvs.axis.service.ReservaService;
@@ -23,6 +24,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -146,5 +148,54 @@ public class UsuarioController {
         }
 
         return "usuario/historico-reservas";
+    }
+
+    @GetMapping("/minhas-reservas")
+    public String mostrarMinhasReservas(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null && auth.isAuthenticated()) {
+            try {
+                List<ReservaResponse> reservasAtivas = reservaService.buscarReservasAtivas(auth.getName());
+                model.addAttribute("reservas", reservasAtivas);
+            } catch (Exception e) {
+                model.addAttribute("erro", "Erro ao carregar reservas ativas");
+            }
+        }
+
+        return "usuario/minhas-reservas";
+    }
+
+    @ResponseBody
+    @PostMapping("/minhas-reservas/{id}/alterar")
+    public ResponseEntity<?> alterarReserva(
+            @PathVariable Long id,
+            @RequestBody AtualizarReservaDTO dto,
+            Authentication auth) {
+        try {
+            ReservaResponse reserva = reservaService.alterarReserva(id, dto, auth.getName());
+            return ResponseEntity.ok(reserva);
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(Collections.singletonMap("erro", e.getReason()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(Collections.singletonMap("erro", "Erro ao alterar reserva"));
+        }
+    }
+
+    @PostMapping("/minhas-reservas/{id}/cancelar")
+    @ResponseBody
+    public ResponseEntity<?> cancelarReserva(@PathVariable Long id, Authentication auth) {
+        try {
+            ReservaResponse reserva = reservaService.cancelarReserva(id, auth.getName());
+            return ResponseEntity.ok(reserva);
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(Collections.singletonMap("erro", e.getReason()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(Collections.singletonMap("erro", e.getMessage()));
+        }
     }
 }

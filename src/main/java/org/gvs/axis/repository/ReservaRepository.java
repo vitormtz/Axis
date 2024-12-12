@@ -26,6 +26,9 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
     List<Reserva> findByAmbienteIdAndDataCriacao(Long ambiente, LocalDateTime dataCriacao);
 
+    @Query("SELECT r FROM Reserva r WHERE r.id = :id AND r.usuario.email = :email")
+    Optional<Reserva> findByIdAndUsuarioEmail(Long id, String email);
+
     @Query("SELECT CASE WHEN COUNT(r) = 0 THEN true ELSE false END FROM Reserva r "
             + "WHERE r.ambiente.id = :ambienteId AND r.status != 'CANCELADA' AND "
             + "((r.horaInicio <= :fim AND r.horaFim >= :inicio))")
@@ -59,10 +62,27 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     @Query("UPDATE Reserva r "
             + "SET r.status = 'CONCLUIDA' "
             + "WHERE r.status = 'CONFIRMADA' "
-            + "AND r.horaFim < :dataAtual")
+            + "AND r.horaInicio < :dataAtual")
     @Modifying
     @Transactional
     int atualizarStatusReservasExpiradas(
             @Param("dataAtual") LocalDateTime dataAtual
+    );
+
+    @Query("SELECT r FROM Reserva r "
+            + "WHERE r.ambiente.id = :ambienteId "
+            + "AND CAST(r.horaInicio AS date) = CAST(:horaInicio AS date) "
+            + "AND (r.status = 'CONFIRMADA' OR r.status = 'CONCLUIDA') "
+            + "AND r.id != :excluirReservaId "
+            + "AND ("
+            + "    (r.horaInicio < :horaFim AND r.horaFim > :horaInicio) OR "
+            + "    (r.horaInicio = :horaInicio) OR "
+            + "    (r.horaFim = :horaFim)"
+            + ")")
+    List<Reserva> findReservasSobrepostas(
+            @Param("ambienteId") Long ambienteId,
+            @Param("horaInicio") LocalDateTime horaInicio,
+            @Param("horaFim") LocalDateTime horaFim,
+            @Param("excluirReservaId") Long excluirReservaId
     );
 }
