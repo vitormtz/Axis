@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.gvs.axis.dto.request.ReservaRequest;
@@ -74,6 +75,27 @@ public class ReservaService {
         reserva = reservaRepository.save(reserva);
 
         return converterParaResponse(reserva);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReservaResponse> buscarHistoricoPorEmail(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Usuário não encontrado"
+        ));
+
+        List<StatusReserva> statusHistorico = Arrays.asList(StatusReserva.CONCLUIDA, StatusReserva.CANCELADA);
+
+        List<Reserva> reservas = reservaRepository.findByUsuarioAndStatusInOrderByDataCriacaoDesc(usuario, statusHistorico);
+
+        return reservas.stream()
+                .map(reserva -> {
+                    ReservaResponse response = converterParaResponse(reserva);
+                    // Subtrai 30 minutos do hora_fim
+                    response.setHoraFim(response.getHoraFim().minusMinutes(30));
+                    return response;
+                })
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

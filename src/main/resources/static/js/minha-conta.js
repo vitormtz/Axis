@@ -11,8 +11,6 @@ async function atualizarPerfil() {
         senha: formData.get('novaSenha') || null
     };
 
-    console.log('Valores antes do envio:', dados);
-
     try {
         const response = await fetch('/usuario/minha-conta/atualizar', {
             method: 'POST',
@@ -117,12 +115,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
-
-
-
-
-
-
 
 $(document).ready(function () {
     // Máscara do CPF

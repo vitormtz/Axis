@@ -3,9 +3,12 @@ package org.gvs.axis.controller;
 import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.gvs.axis.dto.UsuarioDTO;
+import org.gvs.axis.dto.response.ReservaResponse;
+import org.gvs.axis.service.ReservaService;
 import org.gvs.axis.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +36,9 @@ public class UsuarioController {
 
     @Autowired
     private final UsuarioService usuarioService;
+
+    @Autowired
+    private ReservaService reservaService;
 
     @GetMapping("/cadastro")
     public String exibirFormularioCadastro(Model model) {
@@ -124,5 +130,21 @@ public class UsuarioController {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/historico-reservas")
+    public String mostrarHistoricoReservas(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null && auth.isAuthenticated()) {
+            try {
+                List<ReservaResponse> historico = reservaService.buscarHistoricoPorEmail(auth.getName());
+                model.addAttribute("reservas", historico);
+            } catch (Exception e) {
+                model.addAttribute("erro", "Erro ao carregar histórico de reservas");
+            }
+        }
+
+        return "usuario/historico-reservas";
     }
 }

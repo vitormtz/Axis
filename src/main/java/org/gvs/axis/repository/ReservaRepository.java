@@ -3,11 +3,12 @@ package org.gvs.axis.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.gvs.axis.enums.StatusReserva;
 import org.gvs.axis.model.Reserva;
+import org.gvs.axis.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.gvs.axis.enums.StatusReserva;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author vitor
  */
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
+
+    List<Reserva> findByUsuarioAndStatusInOrderByDataCriacaoDesc(Usuario usuario, List<StatusReserva> status);
 
     List<Reserva> findByUsuarioNomeOrderByDataCriacaoDescHoraInicioDesc(String nome);
 
