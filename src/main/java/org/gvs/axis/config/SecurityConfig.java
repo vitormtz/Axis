@@ -37,7 +37,6 @@ public class SecurityConfig {
                 .requestMatchers("/", "/home", "/usuario/cadastro", 
                         "/usuario/login", "ambiente/buscar", 
                         "usuario/status", "/reserva/criar", 
-                        "/usuario/minha-conta/atualizar",
                         "/css/**", "/js/**", "/img/**").permitAll()
                 .anyRequest().authenticated()
                 )
